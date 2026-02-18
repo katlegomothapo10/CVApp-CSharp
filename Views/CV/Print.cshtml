@@ -1,0 +1,215 @@
+﻿@model CVViewModel
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Katlego Mothapo - CV";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 11pt;
+            line-height: 1.4;
+            margin: 0.75in;
+            color: #000;
+        }
+
+        h1 {
+            font-size: 24pt;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 14pt;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            font-size: 12pt;
+            margin-bottom: 5px;
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 10pt;
+        }
+
+        .profile {
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .job, .education-item, .project-item {
+            margin-bottom: 15px;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+
+        .company {
+            font-style: italic;
+        }
+
+        .date {
+            float: right;
+        }
+
+        ul {
+            margin-top: 5px;
+            margin-bottom: 10px;
+            padding-left: 20px;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-category {
+            margin-bottom: 10px;
+        }
+
+            .skill-category strong {
+                display: block;
+            }
+
+        .language-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .cert-item {
+            margin-bottom: 5px;
+        }
+
+        .links {
+            margin-top: 20px;
+            font-size: 10pt;
+        }
+
+        .print-button {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        @@media print {
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-button">
+        <button onclick="window.print()">Print</button>
+        <button onclick="window.close()">Close</button>
+    </div>
+
+    <h1>@Model.PersonalInfo.FullName</h1>
+    <div class="contact-info">
+        @Model.PersonalInfo.Email | @Model.PersonalInfo.Phone
+    </div>
+
+    <h2>Profile</h2>
+    <div class="profile">
+        @Model.PersonalInfo.Profile
+    </div>
+
+    <h2>Education</h2>
+    @foreach (var edu in Model.Education)
+    {
+        <div class="education-item">
+            <strong>@edu.Qualification</strong><br>
+            @edu.Institution, @edu.Years
+        </div>
+    }
+
+    <h2>Work Experience</h2>
+    @foreach (var exp in Model.WorkExperiences)
+    {
+        <div class="job">
+            <div class="job-header">
+                <span>@exp.Position</span>
+                <span>@exp.Year</span>
+            </div>
+            <div class="company">@exp.Company</div>
+            <ul>
+                @foreach (var resp in exp.Responsibilities)
+                {
+                    <li>@resp</li>
+                }
+            </ul>
+            @if (!string.IsNullOrEmpty(exp.Achievement))
+            {
+                <div><em>Achievement: @exp.Achievement</em></div>
+            }
+        </div>
+    }
+
+    <h2>Skills</h2>
+    @foreach (var skillCat in Model.Skills)
+    {
+        <div class="skill-category">
+            <strong>@skillCat.Category:</strong> @string.Join(", ", skillCat.Items)
+        </div>
+    }
+
+    <h2>Languages</h2>
+    @foreach (var lang in Model.Languages)
+    {
+        <div class="language-item">
+            <span>@lang.Name</span>
+            <span>@lang.Proficiency</span>
+        </div>
+    }
+
+    <h2>Projects</h2>
+    @foreach (var project in Model.Projects)
+    {
+        <div class="project-item">
+            <strong>@project.Name (@project.Year)</strong><br>
+            @project.Description
+            @if (!string.IsNullOrEmpty(project.Achievement))
+            {
+                <br>
+        
+                <em>Achievement: @project.Achievement</em>
+            }
+        </div>
+    }
+
+    <h2>Certifications (In Progress)</h2>
+    @foreach (var cert in Model.Certifications)
+    {
+        <div class="cert-item">
+            @cert.Name - @cert.Provider (@cert.ExpectedDate)
+        </div>
+    }
+
+    <div class="links">
+        <strong>Links:</strong><br>
+        LinkedIn: @Model.PersonalInfo.LinkedIn<br>
+        GitHub: @Model.PersonalInfo.GitHub<br>
+        Portfolio: @Model.PersonalInfo.PortfolioUrl
+    </div>
+</body>
+</html>
