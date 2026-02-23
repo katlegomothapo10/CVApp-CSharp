@@ -1,5 +1,7 @@
 # CVApp-CSharp
 
+https://localhost:7085/
+
 This is a web based CV or Resume application developed for ICE 1 using ASP.NET Core MVC. The application displays professional information in a clean and modern format, providing an online presence for individuals to showcase their qualifications and experience.
 
 Purpose of the Application
